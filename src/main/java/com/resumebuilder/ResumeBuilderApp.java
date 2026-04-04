@@ -72,9 +72,9 @@ public class ResumeBuilderApp extends Application {
 
         content.getChildren().addAll(
             sectionTitle("Personal Details"),
-            createField("Full Name", resumeData.fullNameProperty(), "Ava Patel"),
+            createField("Full Name", resumeData.fullNameProperty(), "Asmit Verma"),
             createField("Role / Headline", resumeData.headlineProperty(), "Software Developer"),
-            createField("Email", resumeData.emailProperty(), "ava@example.com"),
+            createField("Email", resumeData.emailProperty(), "asmit.verma@example.com"),
             createField("Phone", resumeData.phoneProperty(), "+91 98765 43210"),
             createField("Location", resumeData.locationProperty(), "Bengaluru, India"),
             createField("LinkedIn / Portfolio", resumeData.websiteProperty(), "linkedin.com/in/ava"),
@@ -239,9 +239,9 @@ public class ResumeBuilderApp extends Application {
     }
 
     private void seedSampleData() {
-        resumeData.fullNameProperty().set("Ava Patel");
+        resumeData.fullNameProperty().set("Asmit Verma");
         resumeData.headlineProperty().set("Java Developer | UI Enthusiast");
-        resumeData.emailProperty().set("ava.patel@example.com");
+        resumeData.emailProperty().set("asmit.verma@example.com");
         resumeData.phoneProperty().set("+91 98765 43210");
         resumeData.locationProperty().set("Bengaluru, India");
         resumeData.websiteProperty().set("linkedin.com/in/avapatel");
