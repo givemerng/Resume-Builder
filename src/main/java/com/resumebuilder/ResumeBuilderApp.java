@@ -189,8 +189,8 @@ public class ResumeBuilderApp extends Application {
     }
 
     private void loadSampleData() {
-        fullNameField.setText("Asmit.verma");
-        emailField.setText("Asmit.verma@example.com");
+        fullNameField.setText("Asmit verma");
+        emailField.setText("asmit.verma@example.com");
         phoneField.setText("+91 1111111111");
         addressField.setText("Bengaluru, India");
         summaryArea.setText("Computer science student with strong interest in Java and software development.");
