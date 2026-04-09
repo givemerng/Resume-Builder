@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,11 +26,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
+import javafx.print.PageLayout;
+import javafx.print.PrinterJob;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ResumeBuilderApp extends Application {
     private final ResumeData resumeData = new ResumeData();
+    private VBox previewCard;
 
     @Override
     public void start(Stage stage) {
@@ -98,7 +103,7 @@ public class ResumeBuilderApp extends Application {
     }
 
     private ScrollPane buildPreviewPane() {
-        VBox previewCard = new VBox(14);
+        previewCard = new VBox(14);
         previewCard.setPadding(new Insets(28));
         previewCard.getStyleClass().add("preview-card");
 
@@ -169,10 +174,14 @@ public class ResumeBuilderApp extends Application {
         exportButton.getStyleClass().add("primary-button");
         exportButton.setOnAction(event -> exportResume(stage));
 
+        Button pdfButton = new Button("Export PDF");
+        pdfButton.getStyleClass().add("secondary-button");
+        pdfButton.setOnAction(event -> exportPdf(stage));
+
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox actionBar = new HBox(10, fillSampleButton, clearButton, spacer, exportButton);
+        HBox actionBar = new HBox(10, fillSampleButton, clearButton, spacer, pdfButton, exportButton);
         actionBar.setAlignment(Pos.CENTER_LEFT);
         return new VBox(new Separator(), actionBar);
     }
@@ -230,6 +239,50 @@ public class ResumeBuilderApp extends Application {
         }
     }
 
+    private void exportPdf(Stage stage) {
+        if (previewCard == null) {
+            showMessage(AlertType.ERROR, "Export Failed", "Resume preview is not ready yet.");
+            return;
+        }
+
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job == null) {
+            showMessage(AlertType.ERROR, "Export Failed", "No printer service is available.");
+            return;
+        }
+
+        boolean accepted = job.showPrintDialog(stage);
+        if (!accepted) {
+            return;
+        }
+
+        PageLayout pageLayout = job.getJobSettings().getPageLayout();
+        double printableWidth = pageLayout.getPrintableWidth();
+        double printableHeight = pageLayout.getPrintableHeight();
+
+        double scaleX = printableWidth / previewCard.getBoundsInParent().getWidth();
+        double scaleY = printableHeight / previewCard.getBoundsInParent().getHeight();
+        double scaleValue = Math.min(scaleX, scaleY);
+
+        Scale scale = new Scale(scaleValue, scaleValue);
+        previewCard.getTransforms().add(scale);
+
+        boolean printed = job.printPage(previewCard);
+        previewCard.getTransforms().remove(scale);
+
+        if (printed) {
+            job.endJob();
+            showMessage(
+                AlertType.INFORMATION,
+                "PDF Export",
+                "In the print dialog, choose your system's 'Save as PDF' option to export the resume."
+            );
+        } else {
+            job.cancelJob();
+            showMessage(AlertType.ERROR, "Export Failed", "The resume could not be sent to the printer.");
+        }
+    }
+
     private void showMessage(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -244,7 +297,7 @@ public class ResumeBuilderApp extends Application {
         resumeData.emailProperty().set("asmit.verma@example.com");
         resumeData.phoneProperty().set("+91 98765 43210");
         resumeData.locationProperty().set("Bengaluru, India");
-        resumeData.websiteProperty().set("linkedin.com/in/avapatel");
+        resumeData.websiteProperty().set("linkedin.com/in/asmitverma");
         resumeData.summaryProperty().set("""
             Detail-oriented Java developer with experience building desktop and web applications.
             Strong foundation in object-oriented design, clean UI creation, and problem solving.
