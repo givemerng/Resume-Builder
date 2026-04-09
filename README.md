@@ -1,25 +1,40 @@
 # Resume Builder JavaFX App
 
-A desktop resume builder created with JavaFX and Maven. The app includes:
+A styled desktop resume builder created with JavaFX and Maven.
 
-- editable sections for personal information, summary, education, experience, skills, and projects
-- live resume preview while typing
+## Features
+
+- form fields for personal details, summary, education, experience, skills, and projects
+- live resume preview in the same window
 - sample data loader
+- clear button to reset the form
 - export to `.txt`
+- export to PDF through the JavaFX print dialog
 
 ## Requirements
 
 - Java 17 or later
 - Maven 3.9 or later
 
-## Run the app
+## Run the App
 
 ```bash
-mvn javafx:run
+mvn clean javafx:run
 ```
 
-## Project structure
+## How PDF Export Works
 
-- `src/main/java/com/resumebuilder/ResumeBuilderApp.java`: main JavaFX application
+1. Click `Export PDF`
+2. In the print dialog, choose a PDF printer such as `Microsoft Print to PDF`
+3. Save the file
+
+## Project Structure
+
+- `src/main/java/com/resumebuilder/ResumeBuilderApp.java`: main JavaFX application and export logic
 - `src/main/java/com/resumebuilder/Launcher.java`: launcher entry point
-- `src/main/resources/styles/app.css`: application styling
+- `src/main/java/module-info.java`: module definition
+- `src/main/resources/styles/app.css`: CSS styling for the JavaFX interface
+
+## Branch Note
+
+This README matches the `css-version` branch of the project.
