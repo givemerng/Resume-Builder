@@ -1,0 +1,5 @@
+target/
+target_cli/
+dependency-reduced-pom.xml
+*.class
+*.jar

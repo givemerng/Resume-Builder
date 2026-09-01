@@ -46,7 +46,7 @@ public class ResumeBuilderApp extends Application {
         Label title = new Label("Resume Builder");
         title.getStyleClass().add("app-title");
 
-        Label subtitle = new Label("Create a professional resume and export it as plain text.");
+        Label subtitle = new Label("Create a professional resume and export it as plain text/PDF.");
         subtitle.getStyleClass().add("app-subtitle");
 
         VBox header = new VBox(4, title, subtitle);
@@ -329,7 +329,7 @@ public class ResumeBuilderApp extends Application {
             """.strip());
     }
 
-    private static String joinNonBlank(String delimiter, String... values) {
+    public static String joinNonBlank(String delimiter, String... values) {
         StringBuilder builder = new StringBuilder();
         for (String value : values) {
             if (value == null || value.isBlank()) {
@@ -343,7 +343,7 @@ public class ResumeBuilderApp extends Application {
         return builder.toString();
     }
 
-    private static String safeFileName(String value) {
+    public static String safeFileName(String value) {
         if (value == null || value.isBlank()) {
             return "resume";
         }
@@ -354,7 +354,7 @@ public class ResumeBuilderApp extends Application {
         launch(args);
     }
 
-    private static final class ResumeData {
+    public static final class ResumeData {
         private final StringProperty fullName = new SimpleStringProperty("");
         private final StringProperty headline = new SimpleStringProperty("");
         private final StringProperty email = new SimpleStringProperty("");
